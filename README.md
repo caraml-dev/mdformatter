@@ -1,6 +1,6 @@
 # mdformatter
 
-Templating and formatting of `.md` files and optionally, publishing to Confluence. The script expects the input `.md` files to be of the Gitbook format (i.e., it supports the special Gitbooks Nunjucks tags). The output format can be one of GITBOOK or CONFLUENCE. If the latter is chosen, the files will also be published to the specified Confluence space.
+Templating and formatting of `.md` files and optionally, publishing to Confluence. The script expects the input `.md` files to be of the Gitbook format (i.e., it supports the special Gitbook Nunjucks tags). The output format can be one of GITBOOK or CONFLUENCE. If the latter is chosen, the files will also be published to the specified Confluence space.
 
 ## Usage
 
@@ -79,7 +79,7 @@ md2conf.converter.DocumentError: Markdown document has no Confluence page title 
 
 The merged files will first be saved to the provided `results_dir` (`sample/results_confluence` in this case). All missing Confluence pages will be created in the provided space according to the page title and parent page title; the created page's ID will be added to the merged file which will be used for publishing later: `<!-- confluence-page-id: 12345678 -->`.
 
-Template substitution (as with the `GITBOOK` case) is done on the merged files.
+Template substitution (as with the `GITBOOK` case) is done on the merged files. During this process, Gitbook specific tags will be converted to appropriate Confluence macros.
 
 ## Publishing to Confluence
 
