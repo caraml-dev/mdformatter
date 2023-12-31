@@ -90,6 +90,7 @@ When `CONFLUENCE` output format is used, the formatted files will also be publis
 1. So that the relative links (to images / pages) work consistenty, the `templates_dir`, `overrides_dir` and `results_dir` must all be under the same parent folder.
 2. Only the following Gitbook tags are properly parsed and converted to Confluence compatible format: `hint`, `embed`, `page-ref`, `code`
 3. When Confluence output format is used, the page-title / parent-page-title comments should be placed at the top of the file, to prevent the possibility of being merged into other sections.
+4. Using URLs with a blank space character (`%20`) may interfere with the processing and substitution of Gitbook tags and is thus discouraged.
 
 ## Development
 
