@@ -36,9 +36,9 @@ def preprocess(
         # Build a tree of pages: id is the page title and parent_id is the parent page title.
         # Note: For a given Confluence space, the page titles are unique which allows us to
         # treat the page title like an id.
-        nodes = [Node(id=confluence_rootpage, parent_id=None)]
+        nodes = [Node(id=confluence_rootpage, parent_id=None, rank=0)]
         for root, _dirs, files in os.walk(markdowns_dir):
-            for file in files:
+            for idx, file in enumerate(sorted(files)):
                 file_path = os.path.join(root, file)
                 with open(file_path, "r") as f:
                     file_contents = f.read()
@@ -48,6 +48,7 @@ def preprocess(
                         Node(
                             id=page_title,
                             parent_id=parent_page_title or confluence_rootpage,
+                            rank=idx,
                         )
                     )
         parsed_nodes = build_tree(nodes)

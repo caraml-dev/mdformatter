@@ -6,12 +6,16 @@ from typing import Dict, List
 
 
 class Node:
-    def __init__(self, id, parent_id) -> None:
+    def __init__(self, id, parent_id, rank) -> None:
         self.id = id
         self.parent_id = parent_id
+        self.rank = rank
 
     def to_dict(self) -> Dict:
-        return {"id": self.id, "parent_id": self.parent_id}
+        return {"id": self.id, "parent_id": self.parent_id, "rank": self.rank}
+
+    def __lt__(self, other):
+        return self.rank < other.rank
 
     def __repr__(self) -> str:
         return str(self.to_dict())
@@ -32,28 +36,29 @@ def build_tree(nodes: List[Node], sorting: int = Tree.WIDTH) -> List[Node]:
     -------
     The parsed tree structure as a list, sorted in the specified mode.
     """
-    item_parent_map = {}
+    node_map, node_map_clone = {}, {}
     for node in nodes:
-        item_parent_map[node.id] = node.parent_id
+        node_map[node.id] = node
+        node_map_clone[node.id] = node
 
     added = set()
     tree = Tree()
-    while item_parent_map:
-        for item, parent in item_parent_map.items():
-            if parent in added:
-                tree.create_node(item, item, parent=parent)
-                added.add(item)
-                item_parent_map.pop(item)
+    while node_map:
+        for node_id, node in node_map.items():
+            if node.parent_id in added:
+                tree.create_node(node, node_id, parent=node.parent_id)
+                added.add(node_id)
+                node_map.pop(node_id)
                 break
-            elif parent is None:
-                tree.create_node(item, item)
-                added.add(item)
-                item_parent_map.pop(item)
+            elif node.parent_id is None:
+                tree.create_node(node, node_id)
+                added.add(node_id)
+                node_map.pop(node_id)
                 break
     logging.debug(f"Parsed tree: {tree.to_dict()}")
 
     # Save the results as a list and return
     parsed_nodes = []
-    for node in tree.expand_tree(mode=Tree.WIDTH):
-        parsed_nodes.append(Node(id=node, parent_id=tree.ancestor(node)))
+    for node_id in tree.expand_tree(mode=Tree.WIDTH):
+        parsed_nodes.append(node_map_clone[node_id])
     return parsed_nodes
