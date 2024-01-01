@@ -110,7 +110,7 @@ if __name__ == "__main__":
                 templates_dir
             )
             if os.path.exists(override_path):
-                logging.debug(f"Applying override at {override_path}")
+                logging.info(f"Applying override at {override_path}")
                 with open(override_path) as o:
                     file_contents = merge_markdowns(file_contents, o.read())
 

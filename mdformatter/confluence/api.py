@@ -191,6 +191,7 @@ def _get_or_create_page(
             "body": {"storage": {"value": "", "representation": "storage"}},
         }
         url = build_url(f"https://{session.domain}{session.base_path}rest/api/content")
+        logging.info(f"Creating page with title: {page_title}")
         response = session.session.post(
             url,
             data=json.dumps(data),
